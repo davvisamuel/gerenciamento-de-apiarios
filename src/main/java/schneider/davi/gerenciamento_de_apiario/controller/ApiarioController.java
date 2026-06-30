@@ -1,11 +1,13 @@
 package schneider.davi.gerenciamento_de_apiario.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import schneider.davi.gerenciamento_de_apiario.domain.Apiario;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 import schneider.davi.gerenciamento_de_apiario.dto.request.ApiarioPostRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.request.HivePostRequest;
@@ -47,21 +49,21 @@ public class ApiarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ApiarioGetResponse>> findAll(@AuthenticationPrincipal User user, Pageable pageable) {
-        var apiarios = apiarioService.findAll(user, pageable);
+    public ResponseEntity<Page<ApiarioGetResponse>> findAll(@AuthenticationPrincipal User user, Pageable pageable) {
+        var apiarioPage = apiarioService.findAll(user, pageable);
 
-        var apiarioGetResponseList = apiarios.stream().map(apiarioMapper::toApiarioGetResponse).toList();
+        var apiarioGetResponsePage = apiarioPage.map(apiarioMapper::toApiarioGetResponse);
 
-        return ResponseEntity.ok(apiarioGetResponseList);
+        return ResponseEntity.ok(apiarioGetResponsePage);
     }
 
     @GetMapping("/{apiaryId}/hives")
-    public ResponseEntity<List<HiveGetResponse>> findAllHives(@AuthenticationPrincipal User user, @PathVariable Long apiaryId, Pageable pageable) {
-        var hiveList = apiarioService.findAllHives(user, apiaryId, pageable);
+    public ResponseEntity<Page<HiveGetResponse>> findAllHives(@AuthenticationPrincipal User user, @PathVariable Long apiaryId, Pageable pageable) {
+        var hivePage = apiarioService.findAllHives(user, apiaryId, pageable);
 
-        var hiveGetResponseList = hiveList.stream().map(hiveMapper::toHiveGetResponse).toList();
+        var hiveGetResponsePage = hivePage.map(hiveMapper::toHiveGetResponse);
 
-        return ResponseEntity.ok(hiveGetResponseList);
+        return ResponseEntity.ok(hiveGetResponsePage);
 
     }
 

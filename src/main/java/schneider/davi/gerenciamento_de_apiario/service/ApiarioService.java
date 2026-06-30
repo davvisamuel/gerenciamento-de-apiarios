@@ -1,6 +1,7 @@
 package schneider.davi.gerenciamento_de_apiario.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class ApiarioService {
     }
 
     @Transactional(readOnly = true)
-    public List<Apiario> findAll(User user, Pageable pageable) {
+    public Page<Apiario> findAll(User user, Pageable pageable) {
         return apiarioRepository.findAllByUser(user, pageable);
     }
 
@@ -40,7 +41,7 @@ public class ApiarioService {
     }
 
     @Transactional(readOnly = true)
-    public List<Hive> findAllHives(User user, Long apiaryId, Pageable pageable) {
+    public Page<Hive> findAllHives(User user, Long apiaryId, Pageable pageable) {
         var apiary = findById(user, apiaryId);
 
         return hiveRepository.findAllByApiary(apiary, pageable);
