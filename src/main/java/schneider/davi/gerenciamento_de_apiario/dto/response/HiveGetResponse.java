@@ -9,6 +9,8 @@ public record HiveGetResponse(
 
         String colonyOrigin,
 
-        Integer boxCount
+        Integer boxCount,
+
+        QueenResponse queen
 ) {
 }

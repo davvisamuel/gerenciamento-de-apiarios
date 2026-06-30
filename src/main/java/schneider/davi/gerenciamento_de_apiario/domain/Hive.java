@@ -23,7 +23,7 @@ public class Hive {
 
     Integer boxCount;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Queen queen;
 
     @ManyToOne

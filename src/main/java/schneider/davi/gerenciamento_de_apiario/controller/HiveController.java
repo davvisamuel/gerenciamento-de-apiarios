@@ -1,47 +1,53 @@
 package schneider.davi.gerenciamento_de_apiario.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import schneider.davi.gerenciamento_de_apiario.domain.Inspection;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
-import schneider.davi.gerenciamento_de_apiario.dto.request.InspectionPostRequest;
-import schneider.davi.gerenciamento_de_apiario.dto.response.InspectionPostResponse;
-import schneider.davi.gerenciamento_de_apiario.mapper.InspectionMapper;
+import schneider.davi.gerenciamento_de_apiario.dto.request.HivePostRequest;
+import schneider.davi.gerenciamento_de_apiario.dto.response.HiveGetResponse;
+import schneider.davi.gerenciamento_de_apiario.dto.response.HivePostResponse;
+import schneider.davi.gerenciamento_de_apiario.mapper.HiveMapper;
+import schneider.davi.gerenciamento_de_apiario.service.ApiarioService;
 import schneider.davi.gerenciamento_de_apiario.service.HiveService;
-import schneider.davi.gerenciamento_de_apiario.service.InspectionService;
 
 @RestController
-@RequestMapping("/v1/hives")
+@RequestMapping("/v1")
 @RequiredArgsConstructor
 public class HiveController {
 
     private final HiveService hiveService;
-    private final InspectionService inspectionService;
-    private final InspectionMapper inspectionMapper;
+    private final ApiarioService apiarioService;
+    private final HiveMapper hiveMapper;
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/hives/{id}")
     public ResponseEntity<Void> deleteById(@AuthenticationPrincipal User user, @PathVariable Long id) {
         hiveService.deleteById(user, id);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{hiveId}/inspection")
-    public ResponseEntity<InspectionPostResponse> saveInspection(@AuthenticationPrincipal User user,
-                                                                 @PathVariable Long hiveId,
-                                                                 @RequestBody InspectionPostRequest inspectionPostRequest) {
+    @GetMapping("/apiaries/{apiaryId}/hives")
+    public ResponseEntity<Page<HiveGetResponse>> findAllHives(@AuthenticationPrincipal User user, @PathVariable Long apiaryId, Pageable pageable) {
+        var hivePage = apiarioService.findAllHives(user, apiaryId, pageable);
 
+        var hiveGetResponsePage = hivePage.map(hiveMapper::toHiveGetResponse);
 
-        var inspection = inspectionMapper.toInspection(inspectionPostRequest);
+        return ResponseEntity.ok(hiveGetResponsePage);
+    }
 
-        var savedInspection = inspectionService.saveInspection(user, hiveId, inspection);
+    @PostMapping("/apiaries/{apiaryId}/hives")
+    public ResponseEntity<HivePostResponse> saveHive(@AuthenticationPrincipal User user, @PathVariable Long apiaryId, @RequestBody HivePostRequest hivePostRequest) {
+        var hive = hiveMapper.toHive(hivePostRequest);
 
-        var inspectionPostResponse = inspectionMapper.toInspectionPostResponse(savedInspection);
+        var savedHive = apiarioService.saveHive(user, apiaryId, hive);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(inspectionPostResponse);
+        var hivePostResponse = hiveMapper.toHivePostResponse(savedHive);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(hivePostResponse);
     }
 }

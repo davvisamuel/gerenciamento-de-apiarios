@@ -15,7 +15,8 @@ public class HiveService {
 
     @Transactional
     public void deleteById(User user, Long id) {
-        hiveRepository.findByIdAndApiary_User(id, user);
+        var hive = findByIdAndUser(id, user);
+        hiveRepository.delete(hive);
     }
 
     public Hive findByIdAndUser(Long id, User user) {
