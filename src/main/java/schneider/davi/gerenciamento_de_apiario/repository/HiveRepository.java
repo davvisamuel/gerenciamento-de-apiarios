@@ -4,17 +4,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import schneider.davi.gerenciamento_de_apiario.domain.Apiario;
+import schneider.davi.gerenciamento_de_apiario.domain.Hive;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ApiarioRepository extends JpaRepository<Apiario, Long> {
+public interface HiveRepository extends JpaRepository<Hive, Long> {
 
-    void deleteByIdAndUser(Long id, User user);
+    Optional<Hive> findByIdAndApiary_User(Long id, User user);
 
-    Optional<Apiario> findByIdAndUser(Long id, User user);
-
-    List<Apiario> findAllByUser(User user, Pageable pageable);
+    List<Hive> findAllByApiary(Apiario apiary, Pageable pageable);
 }

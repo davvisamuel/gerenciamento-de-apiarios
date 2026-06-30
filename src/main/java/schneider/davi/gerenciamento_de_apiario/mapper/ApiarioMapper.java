@@ -13,6 +13,7 @@ import schneider.davi.gerenciamento_de_apiario.dto.response.ApiarioPostResponse;
 public interface ApiarioMapper {
 
     @Mapping(target = "user", source = "user")
+    @Mapping(target = "id", ignore = true)
     Apiario toApiario(User user, ApiarioPostRequest apiarioPostRequest);
 
     ApiarioPostResponse toApiarioPostResponse(Apiario apiario);
