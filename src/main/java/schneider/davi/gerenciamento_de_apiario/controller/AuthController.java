@@ -1,5 +1,6 @@
 package schneider.davi.gerenciamento_de_apiario.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import schneider.davi.gerenciamento_de_apiario.doc.AuthControllerDoc;
 import schneider.davi.gerenciamento_de_apiario.dto.request.AuthLoginRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.request.AuthRegisterRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.AuthLoginResponse;
@@ -19,14 +21,14 @@ import schneider.davi.gerenciamento_de_apiario.service.AuthService;
 @RestController
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthControllerDoc {
 
     private final AuthService authService;
     private final UserMapper userMapper;
     private final AuthMapper authMapper;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthRegisterResponse> register(@RequestBody AuthRegisterRequest authRegisterRequest) {
+    public ResponseEntity<AuthRegisterResponse> register(@RequestBody @Valid AuthRegisterRequest authRegisterRequest) {
 
         var user = userMapper.toUser(authRegisterRequest);
 
@@ -38,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthLoginResponse> login(@RequestBody AuthLoginRequest authLoginRequest) {
+    public ResponseEntity<AuthLoginResponse> login(@RequestBody @Valid AuthLoginRequest authLoginRequest) {
         var usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authLoginRequest.username(), authLoginRequest.password());
 
         var token = authService.login(usernamePasswordAuthenticationToken);

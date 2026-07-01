@@ -1,5 +1,6 @@
 package schneider.davi.gerenciamento_de_apiario.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import schneider.davi.gerenciamento_de_apiario.doc.HiveControllerDoc;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 import schneider.davi.gerenciamento_de_apiario.dto.request.HivePostRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.HiveGetResponse;
@@ -18,7 +20,7 @@ import schneider.davi.gerenciamento_de_apiario.service.HiveService;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-public class HiveController {
+public class HiveController implements HiveControllerDoc {
 
     private final HiveService hiveService;
     private final ApiarioService apiarioService;
@@ -41,7 +43,7 @@ public class HiveController {
     }
 
     @PostMapping("/apiaries/{apiaryId}/hives")
-    public ResponseEntity<HivePostResponse> saveHive(@AuthenticationPrincipal User user, @PathVariable Long apiaryId, @RequestBody HivePostRequest hivePostRequest) {
+    public ResponseEntity<HivePostResponse> saveHive(@AuthenticationPrincipal User user, @PathVariable Long apiaryId, @RequestBody @Valid HivePostRequest hivePostRequest) {
         var hive = hiveMapper.toHive(hivePostRequest);
 
         var savedHive = apiarioService.saveHive(user, apiaryId, hive);

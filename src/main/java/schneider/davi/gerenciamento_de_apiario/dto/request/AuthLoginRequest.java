@@ -1,4 +1,12 @@
 package schneider.davi.gerenciamento_de_apiario.dto.request;
 
-public record AuthLoginRequest(String username, String password) {
+import jakarta.validation.constraints.NotBlank;
+
+public record AuthLoginRequest(
+        @NotBlank(message = "O username é obrigatório")
+        String username,
+
+        @NotBlank(message = "A senha é obrigatória")
+        String password
+) {
 }

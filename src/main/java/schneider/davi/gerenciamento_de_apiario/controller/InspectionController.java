@@ -1,5 +1,6 @@
 package schneider.davi.gerenciamento_de_apiario.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import schneider.davi.gerenciamento_de_apiario.doc.InspectionControllerDoc;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 import schneider.davi.gerenciamento_de_apiario.dto.request.InspectionPostRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.InspectionGetResponse;
@@ -17,7 +19,7 @@ import schneider.davi.gerenciamento_de_apiario.service.InspectionService;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-public class InspectionController {
+public class InspectionController implements InspectionControllerDoc {
 
     private final InspectionService inspectionService;
     private final InspectionMapper inspectionMapper;
@@ -40,8 +42,8 @@ public class InspectionController {
 
     @PostMapping("/hives/{hiveId}/inspection")
     public ResponseEntity<InspectionPostResponse> saveInspection(@AuthenticationPrincipal User user,
-                                                                  @PathVariable Long hiveId,
-                                                                  @RequestBody InspectionPostRequest inspectionPostRequest) {
+                                                                 @PathVariable Long hiveId,
+                                                                 @RequestBody @Valid InspectionPostRequest inspectionPostRequest) {
 
         var inspection = inspectionMapper.toInspection(inspectionPostRequest);
 

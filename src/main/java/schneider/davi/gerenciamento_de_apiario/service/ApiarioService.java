@@ -8,10 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import schneider.davi.gerenciamento_de_apiario.domain.Apiario;
 import schneider.davi.gerenciamento_de_apiario.domain.Hive;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
+import schneider.davi.gerenciamento_de_apiario.exception.NotFoundException;
 import schneider.davi.gerenciamento_de_apiario.repository.ApiarioRepository;
 import schneider.davi.gerenciamento_de_apiario.repository.HiveRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class ApiarioService {
 
     @Transactional(readOnly = true)
     public Apiario findById(User user, Long id) {
-        return apiarioRepository.findByIdAndUser(id, user).orElseThrow();
+        return apiarioRepository.findByIdAndUser(id, user).orElseThrow(() -> new NotFoundException("Apiary not found"));
     }
 
     @Transactional(readOnly = true)

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import schneider.davi.gerenciamento_de_apiario.domain.Apiario;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

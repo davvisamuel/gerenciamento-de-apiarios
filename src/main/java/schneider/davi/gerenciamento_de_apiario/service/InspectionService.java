@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import schneider.davi.gerenciamento_de_apiario.domain.Inspection;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
+import schneider.davi.gerenciamento_de_apiario.exception.NotFoundException;
 import schneider.davi.gerenciamento_de_apiario.repository.InspectionRepository;
 
 @Service
@@ -27,7 +28,7 @@ public class InspectionService {
 
     @Transactional(readOnly = true)
     public Inspection findByIdAndUser(Long id, User user) {
-        return inspectionRepository.findByIdAndHive_Apiary_User(id, user).orElseThrow();
+        return inspectionRepository.findByIdAndHive_Apiary_User(id, user).orElseThrow(() -> new NotFoundException("Inspection not found"));
     }
 
     @Transactional
