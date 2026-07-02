@@ -20,11 +20,12 @@ public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST = {"/v1/auth/**", "/v3/api-docs/**", "/v3/api-docs.yaml", "/swagger-ui/**", "/swagger-ui.html"};
     private final AuthenticationFilter authenticationFilter;
+    private final CustomCorsConfiguration customCorsConfiguration;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
         return httpSecurity
-                .cors((AbstractHttpConfigurer::disable))
+                .cors(c -> c.configurationSource(customCorsConfiguration))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(WHITE_LIST).permitAll()
