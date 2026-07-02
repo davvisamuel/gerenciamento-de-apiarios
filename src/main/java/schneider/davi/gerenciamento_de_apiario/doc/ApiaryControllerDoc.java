@@ -16,6 +16,7 @@ import schneider.davi.gerenciamento_de_apiario.domain.User;
 import schneider.davi.gerenciamento_de_apiario.dto.request.ApiarioPostRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.ApiarioGetResponse;
 import schneider.davi.gerenciamento_de_apiario.dto.response.ApiarioPostResponse;
+import schneider.davi.gerenciamento_de_apiario.exception.ApiError;
 
 @Tag(
         name = "Apiaries",
@@ -34,7 +35,17 @@ public interface ApiaryControllerDoc {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Erro de validação ou regra de negócio",
-                            content = @Content(schema = @Schema(implementation = Error.class))
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Token de autenticação ausente ou inválido",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Usuário autenticado não tem permissão para acessar este recurso",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
                     )
             }
     )
@@ -74,6 +85,16 @@ public interface ApiaryControllerDoc {
                             description = "Apiario deletado com sucesso"
                     ),
                     @ApiResponse(
+                            responseCode = "401",
+                            description = "Token de autenticação ausente ou inválido",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Usuário autenticado não tem permissão para acessar este recurso",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
+                    ),
+                    @ApiResponse(
                             responseCode = "404",
                             description = "Apiario não encontrado"
                     )
@@ -88,6 +109,16 @@ public interface ApiaryControllerDoc {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Apiarios listados com sucesso"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Token de autenticação ausente ou inválido",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Usuário autenticado não tem permissão para acessar este recurso",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))
                     )
             }
     )

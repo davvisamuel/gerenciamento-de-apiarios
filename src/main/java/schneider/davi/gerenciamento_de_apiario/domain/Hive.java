@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -27,5 +29,9 @@ public class Hive {
     private Queen queen;
 
     @ManyToOne
+    @JoinColumn(name = "apiary_id")
     private Apiario apiary;
+
+    @OneToMany(mappedBy = "hive", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Inspection> inspections;
 }

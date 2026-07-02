@@ -18,6 +18,7 @@ public class Inspection {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "hive_id")
     private Hive hive;
 
     private LocalDate inspectionDate;
