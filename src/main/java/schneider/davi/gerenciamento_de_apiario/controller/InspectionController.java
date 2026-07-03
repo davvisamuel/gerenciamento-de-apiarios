@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import schneider.davi.gerenciamento_de_apiario.doc.InspectionControllerDoc;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 import schneider.davi.gerenciamento_de_apiario.dto.request.InspectionPostRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.InspectionGetResponse;
@@ -19,7 +18,7 @@ import schneider.davi.gerenciamento_de_apiario.service.InspectionService;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-public class InspectionController implements InspectionControllerDoc {
+public class InspectionController {
 
     private final InspectionService inspectionService;
     private final InspectionMapper inspectionMapper;

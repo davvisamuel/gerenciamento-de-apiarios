@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import schneider.davi.gerenciamento_de_apiario.doc.HiveControllerDoc;
 import schneider.davi.gerenciamento_de_apiario.domain.User;
 import schneider.davi.gerenciamento_de_apiario.dto.request.HivePostRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.HiveGetResponse;
@@ -20,7 +19,7 @@ import schneider.davi.gerenciamento_de_apiario.service.HiveService;
 @RestController
 @RequestMapping("/v1")
 @RequiredArgsConstructor
-public class HiveController implements HiveControllerDoc {
+public class HiveController {
 
     private final HiveService hiveService;
     private final ApiarioService apiarioService;

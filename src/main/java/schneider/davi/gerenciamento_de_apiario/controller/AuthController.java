@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import schneider.davi.gerenciamento_de_apiario.doc.AuthControllerDoc;
 import schneider.davi.gerenciamento_de_apiario.dto.request.AuthLoginRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.request.AuthRegisterRequest;
 import schneider.davi.gerenciamento_de_apiario.dto.response.AuthLoginResponse;
@@ -21,7 +20,7 @@ import schneider.davi.gerenciamento_de_apiario.service.AuthService;
 @RestController
 @RequestMapping("/v1/auth")
 @RequiredArgsConstructor
-public class AuthController implements AuthControllerDoc {
+public class AuthController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
